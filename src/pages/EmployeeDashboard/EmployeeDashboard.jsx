@@ -12,7 +12,6 @@ function EmployeeDashboard() {
     const { isModalOpen } = useSelector((state) => state.isModalOpen);
     const isEdit = useSelector((state) => state.isModalOpen.isEdit);
     const isDelete = useSelector((state) => state.isModalOpen.isDelete)
-    console.log('delete', isDelete)
 
     useEffect(() => {
         if (!isModalOpen) {
@@ -26,7 +25,6 @@ function EmployeeDashboard() {
     const handleSearchBox = (event) => {
         setSearchFor(event.target.value);
         searchEmployee(searchFor)
-        console.log(searchFor)
     }
     const employeeData = useSelector(state => state.employeeDetails);
     const searchEmployee = (searchFor) => {
@@ -36,7 +34,6 @@ function EmployeeDashboard() {
             employee.designation.includes(searchFor)
         );
         setFilteredEmployee(filteredEmployees);
-        console.log(filteredEmployee)
         return filteredEmployees;
     };
 

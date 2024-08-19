@@ -15,7 +15,8 @@ import {
     DOJ_ERROR,
     EXPERIENCE_ERROR,
     PHONE_ERROR,
-    DOB_NOT_VALID
+    DOB_NOT_VALID,
+    DOJ_NOT_VALID,
 } from './registerDataTypes';
 
 export const setFirstName = (firstName) => ({
@@ -88,7 +89,7 @@ export const setDobNotValid = (hasError) => ({
     payload: hasError,
 });
 export const setDojNotValid = (hasError) => ({
-    type: DOB_NOT_VALID,
+    type: DOJ_NOT_VALID,
     payload: hasError,
 });
 

@@ -91,9 +91,12 @@
 .register-form-col-1 div input,
 .register-form-col-2 div input,
 .experience-container div input,
-.date-container div input {
+.date-container div input,
+select {
     padding-block: 1.3rem;
+    padding-inline: 0.2rem;
     width: 100%;
+    font-size: 1rem;
 }
 
 label[for='experience'] {

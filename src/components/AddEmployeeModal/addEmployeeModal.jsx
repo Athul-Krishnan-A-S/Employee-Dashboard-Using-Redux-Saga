@@ -119,12 +119,6 @@ export const AddEmployeeModal = ({ onClose }) => {
         } else {
             dispatch(setDojNotValid(false));
         }
-        if (!isDojValid(new Date(doj))) {
-            dispatch(setDojNotValid(true));
-            hasError = true;
-        } else {
-            dispatch(setDojNotValid(false));
-        }
         if (!doj || isNaN(new Date(doj).getTime())) {
             dispatch(setDojError(true));
             hasError = true;
