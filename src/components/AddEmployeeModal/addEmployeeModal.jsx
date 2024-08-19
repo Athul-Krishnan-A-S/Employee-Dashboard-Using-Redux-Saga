@@ -18,7 +18,9 @@ import {
     setExperienceError,
     setPhoneError,
     submitForm,
-    updateEmployee
+    updateEmployee,
+    setDobNotValid,
+    setDojNotValid,
 } from '../../redux/RegisterData/registerDataAction';
 import { toggleEdit, toggleModalState } from '../../redux/ModalState/ModalStateAction'
 import { format } from 'date-fns';
@@ -50,7 +52,9 @@ export const AddEmployeeModal = ({ onClose }) => {
         DOB_ERROR,
         DOJ_ERROR,
         EXPERIENCE_ERROR,
-        PHONE_ERROR
+        PHONE_ERROR,
+        DOB_NOT_VALID,
+        DOJ_NOT_VALID,
     } = useSelector((state) => state.registerData);
 
     const handleInputChange = (event) => {
@@ -103,6 +107,24 @@ export const AddEmployeeModal = ({ onClose }) => {
         } else {
             dispatch(setDobError(false));
         }
+        if (!isDobValid(new Date(dob))) {
+            dispatch(setDobNotValid(true));
+            hasError = true;
+        } else {
+            dispatch(setDobNotValid(false));
+        }
+        if (!isDojValid(new Date(doj))) {
+            dispatch(setDojNotValid(true));
+            hasError = true;
+        } else {
+            dispatch(setDojNotValid(false));
+        }
+        if (!isDojValid(new Date(doj))) {
+            dispatch(setDojNotValid(true));
+            hasError = true;
+        } else {
+            dispatch(setDojNotValid(false));
+        }
         if (!doj || isNaN(new Date(doj).getTime())) {
             dispatch(setDojError(true));
             hasError = true;
@@ -124,6 +146,36 @@ export const AddEmployeeModal = ({ onClose }) => {
         }
 
         return !hasError;
+    };
+
+    const isDobValid = (dob) => {
+        if (!dob || isNaN(new Date(dob).getTime())) {
+            return false;
+        }
+        const dobDate = new Date(dob);
+        const today = new Date();
+        const age = today.getFullYear() - dobDate.getFullYear();
+        const monthDifference = today.getMonth() - dobDate.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
+            return age - 1 >= 18;
+        }
+
+        return age >= 18;
+    };
+
+    const isDojValid = (doj) => {
+        if (!doj || isNaN(new Date(doj).getTime())) {
+            return false;
+        }
+
+        const dojDate = new Date(doj);
+        const today = new Date();
+
+        if (dojDate > today) {
+            return false;
+        }
+        return true;
     };
 
     const handleSubmitForm = () => {
@@ -257,6 +309,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                         onChange={handleInputChange}
                                     />
                                     {DOB_ERROR && <p className="error-msg">Please Enter DOB</p>}
+                                    {DOB_NOT_VALID && <p className="error-msg">Must be 18 or greater than 18 yrs Old</p>}
                                 </div>
                                 <div>
                                     <label htmlFor='doj'>Date of Join</label>
@@ -267,6 +320,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                         onChange={handleInputChange}
                                     />
                                     {DOJ_ERROR && <p className="error-msg">Please Enter Join Date</p>}
+                                    {DOJ_NOT_VALID && <p className="error-msg">Please Enter A Valid Date</p>}
                                 </div>
                             </div>
                             <div className="experience-container">

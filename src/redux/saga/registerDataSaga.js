@@ -30,10 +30,12 @@ import {
     setPhoneError 
 } from '../RegisterData/registerDataAction';
 
+import { REGISTER_EMPLOYEE_API,UPDATE_EMPLOYEE_API } from '../../utils/api/Api';
+
 function* submitRegisterForm(action) {
     try {
         const { formData } = action;
-        const response = yield call(fetch, 'http://localhost:8000/api/employee/register', {
+        const response = yield call(fetch, REGISTER_EMPLOYEE_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +60,7 @@ function* submitRegisterForm(action) {
 function* updateEmployee(action) {
     try {
         const { formData } = action;
-        const response = yield call(fetch, 'http://localhost:8000/api/employee/edit', {
+        const response = yield call(fetch, UPDATE_EMPLOYEE_API, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',

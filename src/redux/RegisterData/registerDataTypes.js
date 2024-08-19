@@ -15,5 +15,7 @@ export const DOB_ERROR = 'DOB_ERROR';
 export const DOJ_ERROR = 'DOJ_ERROR';
 export const EXPERIENCE_ERROR = 'EXPERIENCE_ERROR';
 export const PHONE_ERROR = 'PHONE_ERROR';
+export const DOB_NOT_VALID = 'DOB_NOT_VALID';
+export const DOJ_NOT_VALID = 'DOJ_NOT_VALID';
 
 

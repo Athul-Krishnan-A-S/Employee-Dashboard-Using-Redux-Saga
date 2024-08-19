@@ -15,6 +15,8 @@ import {
     DOJ_ERROR,
     EXPERIENCE_ERROR,
     PHONE_ERROR,
+    DOB_NOT_VALID,
+    DOJ_NOT_VALID,
 } from './registerDataTypes';
 
 const initialState = {
@@ -70,6 +72,10 @@ const registerDataReducer = (state = initialState, action) => {
             return { ...state, EXPERIENCE_ERROR: action.payload };
         case PHONE_ERROR:
             return { ...state, PHONE_ERROR: action.payload };
+        case DOB_NOT_VALID:
+            return { ...state, DOB_NOT_VALID: action.payload };
+        case DOJ_NOT_VALID:
+            return { ...state, DOJ_NOT_VALID: action.payload };
         default:
             return state;
     }

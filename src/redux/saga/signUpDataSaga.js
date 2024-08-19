@@ -3,11 +3,12 @@ import { toggleLoginState } from '../../redux/LoginState/loginStateAction';
 import {  
     setUserExists 
 } from '../SignUpData/signUpDataActions';
+import { LOGIN_API,SIGNUP_API } from '../../utils/api/Api';
 
 function* submitForm(action) {
     try {
         const { email, password } = action.payload.formData;
-        const response = yield call(fetch, 'http://localhost:8000/api/users/signup', {
+        const response = yield call(fetch, SIGNUP_API, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -35,7 +36,7 @@ function* submitLoginForm(action) {
     try {
         const { formData, navigate } = action.payload;
 
-        const response = yield call(fetch, 'http://localhost:8000/api/users/login', {
+        const response = yield call(fetch, LOGIN_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
