@@ -1,0 +1,108 @@
+.employee-modal-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.562);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    z-index: 999 !important;
+}
+
+.employee-modal {
+    width: 50%;
+    height: 65%;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.employee-modal {
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.employee-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.modal-close-button {
+    width: 80%;
+    justify-content: end;
+    display: flex;
+    cursor: pointer;
+}
+
+.modal-close-button p {
+    font-size: 3rem;
+    color: red;
+    font-weight: bold;
+}
+
+.register-form-container {
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    flex-direction: column;
+    height: 100%;
+    gap: 3rem;
+}
+
+.register-form {
+    display: flex;
+    gap: 4rem;
+}
+
+.register-text-container {
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgba(73, 74, 131, 0.849);
+    text-align: start;
+    width: 85%;
+}
+
+.register-form-col-1,
+.register-form-col-2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 2rem;
+    justify-content: space-around !important;
+}
+
+.register-form-col-1 div,
+.register-form-col-2 div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.experience-container,
+.date-container {
+    display: flex;
+    flex-direction: row !important;
+    gap: 2rem;
+}
+
+.register-form-col-1 div input,
+.register-form-col-2 div input,
+.experience-container div input,
+.date-container div input {
+    padding-block: 1.3rem;
+    width: 100%;
+}
+
+label[for='experience'] {
+    font-size: 0.8rem;
+}
+
+.register-form-btn-container {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+
+}

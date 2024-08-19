@@ -1,0 +1,1 @@
+export const TOGGLE_IS_LOGIN = 'TOGGLE_IS_LOGIN';

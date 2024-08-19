@@ -1,0 +1,30 @@
+.welcome-container {
+    background-color: rgb(33, 145, 250);
+    color: white;
+    padding: 3%;
+    text-align: center;
+}
+
+.welcome-container p {
+    font-size: 2rem;
+}
+
+.employee-dashboard-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-field {
+    width: 25%;
+    padding: 0.9rem;
+}
+
+.search-container {
+    width: 90%;
+    margin: 0 auto;
+    height: 20%;
+    display: flex;
+    justify-content: end;
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+}
