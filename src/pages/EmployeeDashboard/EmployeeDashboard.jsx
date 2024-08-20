@@ -4,8 +4,7 @@ import EmployeesTable from '../../components/EmployeesTable/EmployeesTable';
 import './employeeDashboard.css';
 import { useEffect, useState } from 'react';
 import { AddEmployeeModal } from '../../components/AddEmployeeModal/addEmployeeModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchemployeeData } from '../../redux/EmployeeDetails/EmployeeDetailsActions';
+import { useSelector } from 'react-redux';
 import DeleteConfirmationModal from '../../components/DeleteConfirmation/DeleteConfirmationModal';
 
 function EmployeeDashboard() {
@@ -54,8 +53,8 @@ function EmployeeDashboard() {
         <div className="employee-dashboard-container">
             {(isModalOpen || isEdit) && <AddEmployeeModal />}
             {(isDelete && <DeleteConfirmationModal />)}
-            {/* {(!isToken && <Token)} */}
-            <EmployeeDashboardHeader />
+            {(!isToken && <p>Token Expired</p>)}
+            {isToken && <EmployeeDashboardHeader />}
             <div className='welcome-container'>
                 <p>Welcome to Employee Dashboard</p>
             </div>
