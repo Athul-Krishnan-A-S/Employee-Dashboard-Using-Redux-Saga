@@ -7,11 +7,19 @@ import SignUp from '../../components/SignUp/SignUp';
 
 function LoginPage() {
     const { isLogin } = useSelector((state) => state.isLogin);
+    const { USER_NOT_FOUND, INCORRECT_CREDENTIALS } = useSelector((state) => state.errorReducer);
     const dispatch = useDispatch();
 
     return (
         <div className="login-page-container">
+            {(USER_NOT_FOUND || INCORRECT_CREDENTIALS) &&
+                <div className="error-field-login-page">
+                    {USER_NOT_FOUND && <p className="error-msg-white" >USER NOT FOUND</p>}
+                    {INCORRECT_CREDENTIALS && <p className="error-msg-white" >INCORRECT EMAIL/PASSWORD</p>}
+                </div>}
+
             <div className="login-container">
+
                 <div className="login-col-1">
                     <div className='login-form-contents-container'>
                         <p>INFORMATION</p>

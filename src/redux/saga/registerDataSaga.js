@@ -1,85 +1,115 @@
 import { takeEvery, call, put ,all } from 'redux-saga/effects';
-import {
-    SET_FIRST_NAME,
-    SET_LAST_NAME,
-    SET_EMAIL,
-    SET_DESIGNATION,
-    SET_DOB,
-    SET_DOJ,
-    SET_EXPERIENCE,
-    SET_PHONE,
-    FIRST_NAME_ERROR,
-    LAST_NAME_ERROR,
-    EMAIL_ERROR,
-    DESIGNATION_ERROR,
-    DOB_ERROR,
-    DOJ_ERROR,
-    EXPERIENCE_ERROR,
-    PHONE_ERROR,
-} from '../RegisterData/registerDataTypes';
 import { toggleEdit, toggleModalState } from '../ModalState/ModalStateAction';
 import {fetchemployeeData} from '../EmployeeDetails/EmployeeDetailsActions';
-import { 
-    setFirstNameError, 
-    setLastNameError, 
-    setEmailError, 
-    setDesignationError, 
-    setDobError, 
-    setDojError, 
-    setExperienceError, 
-    setPhoneError 
-} from '../RegisterData/registerDataAction';
-
 import { REGISTER_EMPLOYEE_API,UPDATE_EMPLOYEE_API } from '../../utils/api/Api';
+import {isTokenValid} from '../../utils/isTokenValid';
+import {toggleTokenValid} from '../LoginState/loginStateAction';
+import { setEmailExists, setEmployeeNotFound, setErrorStatus, setSubmitRegistrationFormSuccess, setUpdateEmployeeSuccess } from '../ServerSideErrorHandlers/ErrorActions';
+
+
+
+function* successHandlerSubmitRegisterForm(status){
+    yield put(setSubmitRegistrationFormSuccess());
+}
+
+function* successHandlerUpdateEmployee(status){
+    yield put(setUpdateEmployeeSuccess());
+}
+
+
+function* errorHandlerSubmitRegisterForm(status){
+    switch(status){
+        case 422:
+            yield put(setEmailExists());
+            break;
+        default:
+            yield put(setErrorStatus());
+            throw new Error('error')
+    }
+}
+
+function* errorHandlerUpdateEmployee(status){
+    switch(status){
+        case 404:
+            yield put(setEmployeeNotFound());
+            break;
+        case 422:
+            yield put(setEmailExists());
+            break;
+        default:
+            yield put(setErrorStatus());
+            throw new Error('error')
+    }
+}
+
+
+
+
+
 
 function* submitRegisterForm(action) {
-    try {
-        const { formData } = action;
-        const response = yield call(fetch, REGISTER_EMPLOYEE_API, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    if(isTokenValid()){
+        try {
+            const { formData } = action;
+            const response = yield call(fetch, REGISTER_EMPLOYEE_API, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            if (!response.ok) {
+                yield call(errorHandlerSubmitRegisterForm,response.status)
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }else{
+                yield put(toggleModalState());
+                yield put(fetchemployeeData());
+                yield call(successHandlerSubmitRegisterForm,response.status);
+            }
+    
+        } catch (error) {
+            
+            console.error('Error:', error.message);
         }
-
-        const data = yield response.json();
-        yield put(toggleModalState());
-        yield put(fetchemployeeData());
-
-    } catch (error) {
-        console.error('Error:', error.message);
+    }else{
+        yield put(toggleTokenValid());
     }
 }
 
 function* updateEmployee(action) {
-    try {
-        const { formData } = action;
-        const response = yield call(fetch, UPDATE_EMPLOYEE_API, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    if(isTokenValid()){
+        try {
+            const { formData } = action;
+            const response = yield call(fetch, UPDATE_EMPLOYEE_API, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            if (!response.ok) {
+                yield call(errorHandlerUpdateEmployee,response.status);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }else{
+                const data = yield response.json();
+                yield put(toggleEdit());
+                yield put(fetchemployeeData());
+                yield call(successHandlerSubmitRegisterForm,response.status)
+            }
+    
+           
+    
+        } catch (error) {
+            errorHandlerUpdateEmployee();
+            console.error('Error:', error.message);
         }
-
-        const data = yield response.json();
-        yield put(toggleEdit());
-        yield put(fetchemployeeData());
-
-    } catch (error) {
-        console.error('Error:', error.message);
+    }else{
+        yield put(toggleTokenValid());
     }
 }
 

@@ -117,3 +117,8 @@ label {
     font-weight: bold;
     color: rgb(121, 118, 118);
 }
+.error-msg-white{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

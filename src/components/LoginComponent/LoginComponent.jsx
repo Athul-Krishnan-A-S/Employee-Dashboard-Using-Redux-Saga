@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Button from "../Button/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import './loginComponent.css';
 import { submitLoginForm } from "../../redux/SignUpData/signUpDataActions";
 
 function LoginComponent() {
@@ -42,17 +42,19 @@ function LoginComponent() {
         }
         if (valid) {
             const formData = { email, password };
-            dispatch(submitLoginForm(formData,navigate))
+            dispatch(submitLoginForm(formData, navigate))
         }
     };
 
     return (
         <div className='login-col-2-contents-container'>
+
             <form className='login-form' onSubmit={handleLogin}>
                 <div className='login-text-container'>
                     <p>LOGIN</p>
                 </div>
                 <div>
+
                     <label htmlFor="email">Your Email</label>
                     <div className='login-input-container'>
                         <input

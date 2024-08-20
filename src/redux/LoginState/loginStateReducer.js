@@ -1,7 +1,8 @@
-import { TOGGLE_IS_LOGIN } from "./loginStateTypes";
+import { TOGGLE_IS_LOGIN,IS_TOKEN_VALID } from "./loginStateTypes";
 
 const initialState = {
-    isLogin: true
+    isLogin: true,
+    isTokenValid:true,
 };
 
 const isLoginReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const isLoginReducer = (state = initialState, action) => {
             return {
                 ...state, 
                 isLogin: !state.isLogin
+            };
+        case IS_TOKEN_VALID:
+            return{
+                ...state,
+                isTokenValid: !state.isTokenValid
             };
         default:
             return state;

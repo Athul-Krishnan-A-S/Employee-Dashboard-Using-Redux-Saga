@@ -1,9 +1,45 @@
 import { takeEvery, call, put ,all } from 'redux-saga/effects';
 import { toggleLoginState } from '../../redux/LoginState/loginStateAction';
-import {  
-    setUserExists 
-} from '../SignUpData/signUpDataActions';
+import { setUserExists } from '../SignUpData/signUpDataActions';
 import { LOGIN_API,SIGNUP_API } from '../../utils/api/Api';
+import { setEmailExists, setErrorStatus, setIncorrectCredentials, setLoginSuccess, setSignupSuccess, setUserNotFound } from '../ServerSideErrorHandlers/ErrorActions';
+
+function* successHandlerSignup(status){
+    yield put(setSignupSuccess());
+}
+
+function* successHandlerLogin(status,data){
+    yield put(setLoginSuccess());
+}
+
+
+function* errorHandlerSignup(status){
+    switch(status){
+        case 422:
+            yield put(setEmailExists());
+            yield put(setUserExists('USER ALREADY EXISTS'));
+            break;
+        default:
+            yield put(setErrorStatus());
+            throw new Error('error')
+    }
+}
+
+function* errorHandlerLogin(status){
+    switch(status){
+        case 404:
+            yield put(setUserNotFound());
+            break;
+        case 422:
+            yield put(setIncorrectCredentials());
+            break;
+        default:
+            yield put(setErrorStatus());
+            throw new Error('error')
+    }
+}
+
+
 
 function* submitForm(action) {
     try {
@@ -18,15 +54,14 @@ function* submitForm(action) {
         });
 
         if (!response.ok) {
-            if (response.status === 422) {
-                yield put(setUserExists('USER ALREADY EXISTS'));
-            }
+            yield call(errorHandlerSignup, response.status);
             throw new Error(`HTTP error! status: ${response.status}`);
+        } else {
+            const data = yield response.json();
+            yield call(successHandlerSignup);
+            yield put(toggleLoginState());
         }
-
-        const data = yield response.json();
-        yield put(toggleLoginState());
-
+        
     } catch (error) {
         console.error('Error:', error.message);
     }
@@ -45,17 +80,21 @@ function* submitLoginForm(action) {
         });
 
         if (!response.ok) {
+            yield call(errorHandlerLogin, response.status);
             throw new Error(`HTTP error! status: ${response.status}`);
+        } else {
+            const data = yield response.json();
+            localStorage.setItem('token', data.data.token);
+            const loginDateTime = new Date();
+            localStorage.setItem('loginTime', loginDateTime.getTime());
+            yield call(successHandlerLogin, data);
+            navigate('/dashboard');
         }
-
-        const data = yield response.json();
-        localStorage.setItem('token', data.data.token);
-        navigate('/dashboard');
-
     } catch (error) {
         console.error('Error:', error.message);
     }
 }
+
 
 function* watchSubmitForm() {
     yield takeEvery('SUBMIT_SIGN_FORM', submitForm);

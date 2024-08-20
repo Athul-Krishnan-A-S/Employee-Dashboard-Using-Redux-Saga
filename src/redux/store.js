@@ -6,6 +6,7 @@ import SignupReducer from './SignUpData/signUpDataReducer';
 import employeeDetailsReducer from './EmployeeDetails/EmployeeDetailsReducer';
 import isModalOpenReducer from './ModalState/ModalStateReducer';
 import rootSaga from '../redux/saga/rootSaga'; 
+import errorReducer from './ServerSideErrorHandlers/ErrorReducer';
 
 const rootReducer = combineReducers({
     isLogin: isLoginReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     signUpData: SignupReducer,
     employeeDetails: employeeDetailsReducer,
     isModalOpen: isModalOpenReducer,
+    errorReducer:errorReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

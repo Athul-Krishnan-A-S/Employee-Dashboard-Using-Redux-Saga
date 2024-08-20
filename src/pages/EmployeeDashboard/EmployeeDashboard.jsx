@@ -10,14 +10,27 @@ import DeleteConfirmationModal from '../../components/DeleteConfirmation/DeleteC
 
 function EmployeeDashboard() {
     const { isModalOpen } = useSelector((state) => state.isModalOpen);
+    const { isTokenValid } = useSelector((state) => state.isLogin);
     const isEdit = useSelector((state) => state.isModalOpen.isEdit);
     const isDelete = useSelector((state) => state.isModalOpen.isDelete)
+    const [isToken, setIsToken] = useState(true);
+
+    console.log(isTokenValid)
+    useEffect(() => {
+        if (!isTokenValid) {
+            setIsToken(false);
+        } else {
+            setIsToken(true);
+        }
+    }, [isTokenValid])
 
     useEffect(() => {
         if (!isModalOpen) {
             localStorage.removeItem('searchId');
         }
     }, [isModalOpen])
+
+
 
     const [searchFor, setSearchFor] = useState('');
     const [filteredEmployee, setFilteredEmployee] = useState();
@@ -41,6 +54,7 @@ function EmployeeDashboard() {
         <div className="employee-dashboard-container">
             {(isModalOpen || isEdit) && <AddEmployeeModal />}
             {(isDelete && <DeleteConfirmationModal />)}
+            {/* {(!isToken && <Token)} */}
             <EmployeeDashboardHeader />
             <div className='welcome-container'>
                 <p>Welcome to Employee Dashboard</p>

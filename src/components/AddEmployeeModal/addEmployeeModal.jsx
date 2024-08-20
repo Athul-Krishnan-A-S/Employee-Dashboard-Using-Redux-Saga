@@ -33,6 +33,7 @@ export const AddEmployeeModal = ({ onClose }) => {
     const { isModalOpen } = useSelector((state) => state.isModalOpen);
     const employeeData = useSelector(state => state.employeeDetails);
     const searchId = localStorage.getItem('searchId');
+    const { EMAIL_EXISTS, EMPLOYEE_NOT_FOUND } = useSelector((state) => state.errorReducer);
 
 
     const dispatch = useDispatch();
@@ -239,6 +240,8 @@ export const AddEmployeeModal = ({ onClose }) => {
             <div className="employee-modal">
                 <div className='modal-close-button' ><p onClick={() => handleModalClose()}>X</p></div>
                 <div className='employee-modal-form'>
+                    {EMPLOYEE_NOT_FOUND && <p className="error-msg">Employee Not Found</p>}
+                    {EMAIL_EXISTS && <p className="error-msg">Email Already Exists</p>}
                     <form className="register-form">
                         <div className="register-form-col-1">
                             <div>
