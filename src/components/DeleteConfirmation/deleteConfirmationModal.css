@@ -1,0 +1,28 @@
+.delete-confirmation-container{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.308);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+}
+.delete-confirmation-modal{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+}
+.delete-confirmation-heading p{
+    color: blue;
+    font-size: 1.8rem;
+}
+.delete-confirmation-message p{
+    font-size: 1.2rem;
+    color: black;
+}
+.delete-confirmation-buttons{
+    display: flex;
+    gap: 2rem;
+}

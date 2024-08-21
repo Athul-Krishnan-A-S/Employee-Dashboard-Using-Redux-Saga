@@ -1,0 +1,57 @@
+.white-btn {
+    width: 30%;
+    padding: 1rem;
+}
+
+.blue-btn {
+    width: 45%;
+    padding: 1.5rem;
+    background-color: rgba(73, 74, 131, 0.849);
+    color: white;
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.register-btn {
+    width: 18%;
+    padding: 1rem;
+    background-color: rgba(73, 74, 131, 0.849);
+    color: white;
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.cancel-btn {
+    width: 18%;
+    padding: 1rem;
+    background-color: rgba(73, 74, 131, 0.849);
+    color: white;
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.addEmployee-btn,
+.searchBtn {
+    padding: 1rem;
+    background-color: rgb(33, 145, 250);
+    color: white;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.actionBtn {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: rgb(33, 145, 250);
+    font-size: 1.1rem;
+    font-weight: bold;
+}

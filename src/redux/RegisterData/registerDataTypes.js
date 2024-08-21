@@ -1,0 +1,16 @@
+export const FIRST_NAME_ERROR = 'FIRST_NAME_ERROR';
+export const LAST_NAME_ERROR = 'LAST_NAME_ERROR';
+export const EMAIL_ERROR = 'EMAIL_ERROR';
+export const DESIGNATION_ERROR = 'DESIGNATION_ERROR';
+export const DOB_ERROR = 'DOB_ERROR';
+export const DOJ_ERROR = 'DOJ_ERROR';
+export const EXPERIENCE_ERROR = 'EXPERIENCE_ERROR';
+export const PHONE_ERROR = 'PHONE_ERROR';
+export const DOB_NOT_VALID = 'DOB_NOT_VALID';
+export const DOJ_NOT_VALID = 'DOJ_NOT_VALID';
+export const SET_FORM_DATA = 'SET_FORM_DATA';
+export const SEARCH_EMPLOYEE = 'SEARCH_EMPLOYEE';
+export const SET_SEARCHED_DATA = 'SET_SEARCHED_DATA';
+
+
+
