@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import Button from '../Button/Button';
 import './employeeTable.css';
 import { fetchemployeeData, deleteEmployee } from '../../redux/EmployeeDetails/EmployeeDetailsActions';
-import { toggleDelete, toggleEdit, toggleModalState } from '../../redux/ModalState/ModalStateAction';
+import { setId, toggleDelete, toggleEdit, toggleModalState } from '../../redux/ModalState/ModalStateAction';
 
 class EmployeesTable extends Component {
     constructor(props) {
@@ -44,12 +44,12 @@ class EmployeesTable extends Component {
 
     handleDeleteEmployee = (id) => {
         this.props.toggleDelete();
-        localStorage.setItem('deleteId', id)
+        this.props.setId(id);
     }
 
     handleToggleEdit = (id) => {
         this.props.toggleEdit();
-        localStorage.setItem('searchId', id);
+        this.props.setId(id);
     }
 
     render() {
@@ -108,6 +108,7 @@ const mapStateToProps = (state) => ({
     isModalOpen: state.isModalOpen,
     employeeDataFromState: state.employeeDetails,
     isDelete: state.isDelete,
+    id: state.isModalOpen,
 });
 
 const mapDispatchToProps = {
@@ -116,6 +117,7 @@ const mapDispatchToProps = {
     toggleEdit,
     toggleModalState,
     toggleDelete,
+    setId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeesTable);

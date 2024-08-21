@@ -1,51 +1,47 @@
 import './addEmployeeModal.css';
 import { useDispatch, useSelector } from "react-redux";
 import {
-    setFirstName,
-    setLastName,
-    setEmail,
-    setDesignation,
-    setDob,
-    setDoj,
-    setExperience,
-    setPhone,
+    submitForm,
+    updateEmployee,
+    searchEmployee,
     setFirstNameError,
     setLastNameError,
     setEmailError,
-    setDesignationError,
     setDobError,
+    setDesignationError,
+    setDobNotValid,
     setDojError,
+    setDojNotValid,
     setExperienceError,
     setPhoneError,
-    submitForm,
-    updateEmployee,
-    setDobNotValid,
-    setDojNotValid,
 } from '../../redux/RegisterData/registerDataAction';
-import { toggleEdit, toggleModalState } from '../../redux/ModalState/ModalStateAction'
+import { toggleEdit, toggleModalState } from '../../redux/ModalState/ModalStateAction';
 import { format } from 'date-fns';
 import Button from "../Button/Button";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { validateForm } from '../../utils/formValidation';
 
 export const AddEmployeeModal = ({ onClose }) => {
-
     const isEdit = useSelector((state) => state.isModalOpen.isEdit);
-    const { isModalOpen } = useSelector((state) => state.isModalOpen);
-    const employeeData = useSelector(state => state.employeeDetails);
-    const searchId = localStorage.getItem('searchId');
+    const isModalOpen = useSelector((state) => state.isModalOpen.isModalOpen);
+    const { id } = useSelector((state) => state.isModalOpen)
+    const searchId = id;
+    const { searchedData } = useSelector((state) => state.registerData);
     const { EMAIL_EXISTS, EMPLOYEE_NOT_FOUND } = useSelector((state) => state.errorReducer);
 
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        designation: '',
+        dob: '',
+        doj: '',
+        experience: '',
+        phone: ''
+    });
 
     const dispatch = useDispatch();
     const {
-        firstName,
-        lastName,
-        email,
-        designation,
-        dob,
-        doj,
-        experience,
-        phone,
         FIRST_NAME_ERROR,
         LAST_NAME_ERROR,
         EMAIL_ERROR,
@@ -60,185 +56,106 @@ export const AddEmployeeModal = ({ onClose }) => {
 
     const handleInputChange = (event) => {
         const { id, value } = event.target;
-        const actionMap = {
-            firstName: setFirstName,
-            lastName: setLastName,
-            email: setEmail,
-            designation: setDesignation,
-            dob: setDob,
-            doj: setDoj,
-            experience: setExperience,
-            phone: setPhone
-        };
-        const action = actionMap[id];
-        if (action) dispatch(action(value));
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
     };
 
-    const validateForm = () => {
-        let hasError = false;
-
-        if (!firstName.trim() || /\./.test(firstName)) {
-            dispatch(setFirstNameError(true));
-            hasError = true;
-        } else {
-            dispatch(setFirstNameError(false));
-        }
-        if (!lastName.trim() || /\./.test(lastName)) {
-            dispatch(setLastNameError(true));
-            hasError = true;
-        } else {
-            dispatch(setLastNameError(false));
-        }
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            dispatch(setEmailError(true));
-            hasError = true;
-        } else {
-            dispatch(setEmailError(false));
-        }
-        if (!designation) {
-            dispatch(setDesignationError(true));
-            hasError = true;
-        } else {
-            dispatch(setDesignationError(false));
-        }
-        if (!dob || isNaN(new Date(dob).getTime())) {
-            dispatch(setDobError(true));
-            hasError = true;
-        } else {
-            dispatch(setDobError(false));
-        }
-        if (!isDobValid(new Date(dob))) {
-            dispatch(setDobNotValid(true));
-            hasError = true;
-        } else {
-            dispatch(setDobNotValid(false));
-        }
-        if (!isDojValid(new Date(doj))) {
-            dispatch(setDojNotValid(true));
-            hasError = true;
-        } else {
-            dispatch(setDojNotValid(false));
-        }
-        if (!doj || isNaN(new Date(doj).getTime())) {
-            dispatch(setDojError(true));
-            hasError = true;
-        } else {
-            dispatch(setDojError(false));
-        }
-        if (isNaN(experience) || experience < 0) {
-            dispatch(setExperienceError(true));
-            hasError = true;
-        } else {
-            dispatch(setExperienceError(false));
-        }
-        const phonePattern = /^[0-9]+$/;
-        if (!phonePattern.test(phone)) {
-            dispatch(setPhoneError(true));
-            hasError = true;
-        } else {
-            dispatch(setPhoneError(false));
-        }
-
-        return !hasError;
-    };
-
-    const isDobValid = (dob) => {
-        if (!dob || isNaN(new Date(dob).getTime())) {
-            return false;
-        }
-        const dobDate = new Date(dob);
-        const today = new Date();
-        const age = today.getFullYear() - dobDate.getFullYear();
-        const monthDifference = today.getMonth() - dobDate.getMonth();
-
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
-            return age - 1 >= 18;
-        }
-
-        return age >= 18;
-    };
-
-    const isDojValid = (doj) => {
-        if (!doj || isNaN(new Date(doj).getTime())) {
-            return false;
-        }
-
-        const dojDate = new Date(doj);
-        const today = new Date();
-
-        if (dojDate > today) {
-            return false;
-        }
-        return true;
-    };
 
     const handleSubmitForm = () => {
-        if (validateForm()) {
-            const formData = {
-                fname: firstName,
-                lname: lastName,
-                email,
-                designation,
-                dob,
-                doj,
-                experience,
-                phoneNumber: phone
+        const isFormValid = validateForm(formData, dispatch)
+        if (isFormValid) {
+            const data = {
+                fname: formData.firstName,
+                lname: formData.lastName,
+                email: formData.email,
+                designation: formData.designation,
+                dob: formData.dob,
+                doj: formData.doj,
+                experience: formData.experience,
+                phoneNumber: formData.phone
             };
             if (!isEdit) {
-                dispatch(submitForm(formData));
+                dispatch(submitForm(data));
             } else {
-                const employeeId = localStorage.getItem('searchId')
-                Object.assign(formData, { employeeId: employeeId })
-                dispatch(updateEmployee(formData));
+                dispatch(updateEmployee({ ...data, employeeId: searchId }));
             }
         }
     };
 
     const formatDateToDDMMYYYY = (dateString) => {
         if (!dateString) return '';
-        const date = new Date(dateString);
-        return format(date, 'yyyy-MM-dd');
+        return format(new Date(dateString), 'yyyy-MM-dd');
     };
 
     useEffect(() => {
         if (isEdit) {
-            const employee = employeeData.find(emp => emp.employeeId === searchId);
-            if (employee) {
-                dispatch(setFirstName(employee.fname));
-                dispatch(setLastName(employee.lname));
-                dispatch(setEmail(employee.email));
-                dispatch(setDesignation(employee.designation));
-                dispatch(setDob(formatDateToDDMMYYYY(employee.dob)));
-                dispatch(setDoj(formatDateToDDMMYYYY(employee.doj)));
-                dispatch(setExperience(employee.experience));
-                dispatch(setPhone(employee.phoneNumber));
-            }
-        } else {
-            dispatch(setFirstName(''));
-            dispatch(setLastName(''));
-            dispatch(setEmail(''));
-            dispatch(setDesignation(''));
-            dispatch(setDob(formatDateToDDMMYYYY('')));
-            dispatch(setDoj(formatDateToDDMMYYYY('')));
-            dispatch(setExperience(''));
-            dispatch(setPhone(''));
+            dispatch(searchEmployee(searchId));
         }
-    }, [isEdit, isModalOpen])
+    }, [isEdit, searchId, dispatch]);
+
+    useEffect(() => {
+        if (isEdit && searchedData?.data?.employee) {
+            const employee = searchedData.data.employee;
+            setFormData({
+                firstName: employee.fname,
+                lastName: employee.lname,
+                email: employee.email,
+                designation: employee.designation,
+                dob: formatDateToDDMMYYYY(employee.dob),
+                doj: formatDateToDDMMYYYY(employee.doj),
+                experience: employee.experience,
+                phone: employee.phoneNumber
+            });
+        } else {
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                designation: '',
+                dob: '',
+                doj: '',
+                experience: '',
+                phone: ''
+            });
+        }
+    }, [isEdit, searchedData]);
 
     const handleModalClose = () => {
         if (isModalOpen) {
             dispatch(toggleModalState());
+            setErrorsFalse();
         }
         if (isEdit) {
             dispatch(toggleEdit());
+            setErrorsFalse();
         }
+        if (onClose) {
+            onClose();
+            setErrorsFalse();
+        }
+    };
+
+    const setErrorsFalse = () => {
+        dispatch(setFirstNameError(false));
+        dispatch(setLastNameError(false));
+        dispatch(setEmailError(false))
+        dispatch(setDesignationError(false));
+        dispatch(setDobError(false));
+        dispatch(setDobNotValid(false));
+        dispatch(setDojError(false));
+        dispatch(setDojNotValid(false));
+        dispatch(setExperienceError(false));
+        dispatch(setPhoneError(false));
     }
 
     return (
         <div className="employee-modal-container">
             <div className="employee-modal">
-                <div className='modal-close-button' ><p onClick={() => handleModalClose()}>X</p></div>
+                <div className='modal-close-button'>
+                    <p onClick={handleModalClose}>x</p>
+                </div>
                 <div className='employee-modal-form'>
                     {EMPLOYEE_NOT_FOUND && <p className="error-msg">Employee Not Found</p>}
                     {EMAIL_EXISTS && <p className="error-msg">Email Already Exists</p>}
@@ -250,7 +167,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                     id="firstName"
                                     type="text"
                                     placeholder="First Name"
-                                    value={firstName}
+                                    value={formData.firstName}
                                     onChange={handleInputChange}
                                 />
                                 {FIRST_NAME_ERROR && <p className="error-msg">Please Enter First Name</p>}
@@ -260,7 +177,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                 <input
                                     id="email"
                                     type="email"
-                                    value={email}
+                                    value={formData.email}
                                     placeholder="Email"
                                     onChange={handleInputChange}
                                 />
@@ -270,7 +187,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                 <label htmlFor='designation'>Designation</label>
                                 <select
                                     id="designation"
-                                    value={designation}
+                                    value={formData.designation}
                                     onChange={handleInputChange}
                                 >
                                     <option value="" disabled>Select Designation</option>
@@ -291,7 +208,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                     id="lastName"
                                     type="text"
                                     placeholder="Last Name"
-                                    value={lastName}
+                                    value={formData.lastName}
                                     onChange={handleInputChange}
                                 />
                                 {LAST_NAME_ERROR && <p className="error-msg">Please Enter Last Name</p>}
@@ -302,22 +219,22 @@ export const AddEmployeeModal = ({ onClose }) => {
                                     <input
                                         id="dob"
                                         type="date"
-                                        value={dob}
+                                        value={formData.dob}
                                         onChange={handleInputChange}
                                     />
                                     {DOB_ERROR && <p className="error-msg">Please Enter DOB</p>}
-                                    {DOB_NOT_VALID && <p className="error-msg">Must be 18 or greater than 18 yrs Old</p>}
+                                    {DOB_NOT_VALID && <p className="error-msg">Must be 18 or older</p>}
                                 </div>
                                 <div>
                                     <label htmlFor='doj'>Date of Join</label>
                                     <input
                                         id="doj"
                                         type="date"
-                                        value={doj}
+                                        value={formData.doj}
                                         onChange={handleInputChange}
                                     />
                                     {DOJ_ERROR && <p className="error-msg">Please Enter Join Date</p>}
-                                    {DOJ_NOT_VALID && <p className="error-msg">Please Enter A Valid Date</p>}
+                                    {DOJ_NOT_VALID && <p className="error-msg">Invalid Date</p>}
                                 </div>
                             </div>
                             <div className="experience-container">
@@ -327,10 +244,10 @@ export const AddEmployeeModal = ({ onClose }) => {
                                         id="experience"
                                         type="number"
                                         placeholder="0"
-                                        value={experience}
+                                        value={formData.experience}
                                         onChange={handleInputChange}
                                     />
-                                    {EXPERIENCE_ERROR && <p className="error-msg">Please Enter Experience in Years</p>}
+                                    {EXPERIENCE_ERROR && <p className="error-msg">Please Enter Experience</p>}
                                 </div>
                                 <div>
                                     <label htmlFor='phone'>Phone</label>
@@ -338,7 +255,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                                         id="phone"
                                         type="number"
                                         placeholder="Phone Number"
-                                        value={phone}
+                                        value={formData.phone}
                                         onChange={handleInputChange}
                                     />
                                     {PHONE_ERROR && <p className="error-msg">Please Enter Phone Number</p>}
@@ -348,7 +265,7 @@ export const AddEmployeeModal = ({ onClose }) => {
                     </form>
                     <div className="register-form-btn-container">
                         <Button value={!isEdit ? "Register" : 'Update'} className="register-btn" onClick={handleSubmitForm} />
-                        <Button value="Cancel" className="cancel-btn" onClick={() => dispatch(toggleModalState)} />
+                        <Button value="Cancel" className="cancel-btn" onClick={handleModalClose} />
                     </div>
                 </div>
             </div>

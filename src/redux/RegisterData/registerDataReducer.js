@@ -1,12 +1,4 @@
 import {
-    SET_FIRST_NAME,
-    SET_LAST_NAME,
-    SET_EMAIL,
-    SET_DESIGNATION,
-    SET_DOB,
-    SET_DOJ,
-    SET_EXPERIENCE,
-    SET_PHONE,
     FIRST_NAME_ERROR,
     LAST_NAME_ERROR,
     EMAIL_ERROR,
@@ -17,6 +9,9 @@ import {
     PHONE_ERROR,
     DOB_NOT_VALID,
     DOJ_NOT_VALID,
+    SET_FORM_DATA,
+    SEARCH_EMPLOYEE,
+    SET_SEARCHED_DATA,
 } from './registerDataTypes';
 
 const initialState = {
@@ -36,26 +31,12 @@ const initialState = {
     DOJ_ERROR: false,
     EXPERIENCE_ERROR: false,
     PHONE_ERROR: false,
+    SEARCH_EMPLOYEE:false,
+    searchedData:{},
 };
 
 const registerDataReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_FIRST_NAME:
-            return { ...state, firstName: action.payload };
-        case SET_LAST_NAME:
-            return { ...state, lastName: action.payload };
-        case SET_EMAIL:
-            return { ...state, email: action.payload };
-        case SET_DESIGNATION:
-            return { ...state, designation: action.payload };
-        case SET_DOB:
-            return { ...state, dob: action.payload };
-        case SET_DOJ:
-            return { ...state, doj: action.payload };
-        case SET_EXPERIENCE:
-            return { ...state, experience: action.payload };
-        case SET_PHONE:
-            return { ...state, phone: action.payload };
         case FIRST_NAME_ERROR:
             return { ...state, FIRST_NAME_ERROR: action.payload };
         case LAST_NAME_ERROR:
@@ -76,6 +57,12 @@ const registerDataReducer = (state = initialState, action) => {
             return { ...state, DOB_NOT_VALID: action.payload };
         case DOJ_NOT_VALID:
             return { ...state, DOJ_NOT_VALID: action.payload };
+        case SET_FORM_DATA:
+            return { ...state, ...action.payload };
+        case SEARCH_EMPLOYEE:
+            return { ...state, ...action.payload };
+        case SET_SEARCHED_DATA:
+            return { ...state, searchedData: action.payload };
         default:
             return state;
     }

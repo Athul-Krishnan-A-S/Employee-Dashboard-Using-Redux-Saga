@@ -4,8 +4,9 @@ import EmployeesTable from '../../components/EmployeesTable/EmployeesTable';
 import './employeeDashboard.css';
 import { useEffect, useState } from 'react';
 import { AddEmployeeModal } from '../../components/AddEmployeeModal/addEmployeeModal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DeleteConfirmationModal from '../../components/DeleteConfirmation/DeleteConfirmationModal';
+import { setId } from '../../redux/ModalState/ModalStateAction';
 
 function EmployeeDashboard() {
     const { isModalOpen } = useSelector((state) => state.isModalOpen);
@@ -13,8 +14,9 @@ function EmployeeDashboard() {
     const isEdit = useSelector((state) => state.isModalOpen.isEdit);
     const isDelete = useSelector((state) => state.isModalOpen.isDelete)
     const [isToken, setIsToken] = useState(true);
+    const { id } = useSelector((state) => state.isModalOpen);
+    const dispatch = useDispatch();
 
-    console.log(isTokenValid)
     useEffect(() => {
         if (!isTokenValid) {
             setIsToken(false);
@@ -25,7 +27,7 @@ function EmployeeDashboard() {
 
     useEffect(() => {
         if (!isModalOpen) {
-            localStorage.removeItem('searchId');
+            dispatch(setId(''));
         }
     }, [isModalOpen])
 

@@ -1,12 +1,5 @@
 import {
-    SET_FIRST_NAME,
-    SET_LAST_NAME,
-    SET_EMAIL,
-    SET_DESIGNATION,
-    SET_DOB,
-    SET_DOJ,
-    SET_EXPERIENCE,
-    SET_PHONE,
+    SET_FORM_DATA,
     FIRST_NAME_ERROR,
     LAST_NAME_ERROR,
     EMAIL_ERROR,
@@ -19,46 +12,10 @@ import {
     DOJ_NOT_VALID,
 } from './registerDataTypes';
 
-export const setFirstName = (firstName) => ({
-    type: SET_FIRST_NAME,
-    payload: firstName,
-});
-
-export const setLastName = (lastName) => ({
-    type: SET_LAST_NAME,
-    payload: lastName,
-});
-
-export const setEmail = (email) => ({
-    type: SET_EMAIL,
-    payload: email,
-});
-
-export const setDesignation = (designation) => ({
-    type: SET_DESIGNATION,
-    payload: designation,
-});
-
-export const setDob = (dob) => ({
-    type: SET_DOB,
-    payload: dob,
-});
-
-export const setDoj = (doj) => ({
-    type: SET_DOJ,
-    payload: doj,
-});
-
-export const setExperience = (experience) => ({
-    type: SET_EXPERIENCE,
-    payload: experience,
-});
-
-export const setPhone = (phone) => ({
-    type: SET_PHONE,
-    payload: phone,
-});
-
+export const setFormData = (formData) => ({
+    type:SET_FORM_DATA,
+    payload:formData,
+})
 
 export const setFirstNameError = (hasError) => ({
     type: FIRST_NAME_ERROR,
@@ -116,4 +73,13 @@ export const submitForm = (formData) => ({
 export const updateEmployee = (formData) => ({
     type: 'UPDATE_EMPLOYEE',
     formData,
+});
+export const searchEmployee = (id) => ({
+    type: 'SEARCH_EMPLOYEE',
+    payload:{id},
+});
+
+export const setSearchedData = (data) => ({
+    type: 'SET_SEARCHED_DATA',
+    payload: data,
 });

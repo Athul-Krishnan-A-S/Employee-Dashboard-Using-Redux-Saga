@@ -1,7 +1,10 @@
-import { FETCH_EMPLOYEE_DATA, DELETE_EMPLOYEE,SET_EMPLOYEE_DATA } from './EmployeeDetailsTypes';
+import { FETCH_EMPLOYEE_DATA, DELETE_EMPLOYEE,SET_EMPLOYEE_DATA, FETCH_SEARCHED_EMPLOYEE } from './EmployeeDetailsTypes';
 
 export const fetchemployeeData = () => ({
     type: FETCH_EMPLOYEE_DATA,
+});
+export const fetchSearchedEmployee = (id) => ({
+    type: FETCH_SEARCHED_EMPLOYEE,
 });
 
 export const deleteEmployee = (employeeID) => ({

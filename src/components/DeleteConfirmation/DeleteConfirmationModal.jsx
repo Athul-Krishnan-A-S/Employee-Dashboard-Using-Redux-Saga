@@ -1,20 +1,26 @@
+import { useEffect } from 'react';
 import { deleteEmployee } from '../../redux/EmployeeDetails/EmployeeDetailsActions';
-import { toggleDelete } from '../../redux/ModalState/ModalStateAction';
+import { setId, toggleDelete } from '../../redux/ModalState/ModalStateAction';
 import Button from '../Button/Button';
 import './deleteConfirmationModal.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 function DeleteConfirmationModal() {
+    const { id } = useSelector((state) => state.isModalOpen);
+    useEffect(()=>{
+        console.log(id)
+    },[id])
     const dispatch = useDispatch();
     const handleCancelDelete = () => {
-        localStorage.removeItem('deleteId')
+        dispatch(setId(''))
         dispatch(toggleDelete())
     }
     const handleConfirmDelete = () => {
         dispatch(toggleDelete())
-        const employeeId = localStorage.getItem('deleteId')
+        const employeeId = id;
         dispatch(deleteEmployee(employeeId))
-        localStorage.removeItem('deleteId')
+        dispatch(setId(''));
     }
     return (
         <div className="delete-confirmation-container">

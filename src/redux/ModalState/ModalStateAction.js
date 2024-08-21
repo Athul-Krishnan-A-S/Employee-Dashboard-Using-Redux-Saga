@@ -1,4 +1,4 @@
-import { TOGGLE_EDIT, TOGGLE_MODAL,TOGGLE_DELETE,CONFIRM_DELETE } from "./ModalStateTypes";
+import { TOGGLE_EDIT, TOGGLE_MODAL,TOGGLE_DELETE,CONFIRM_DELETE, SET_ID } from "./ModalStateTypes";
 
 export const toggleModalState = () =>({
     type:TOGGLE_MODAL
@@ -11,4 +11,8 @@ export const toggleDelete = () =>({
 });
 export const confirmDelete = () =>({
     type:CONFIRM_DELETE
+});
+export const setId = (id) =>({
+    type:SET_ID,
+    payload:id
 });

@@ -4,4 +4,5 @@ export const REGISTER_EMPLOYEE_API = 'http://localhost:8000/api/employee/registe
 export const UPDATE_EMPLOYEE_API = 'http://localhost:8000/api/employee/edit';
 export const SIGNUP_API = 'http://localhost:8000/api/users/signup';
 export const LOGIN_API = 'http://localhost:8000/api/users/login';
+export const SEARCH_EMPLOYEE_API = 'http://localhost:8000/api/employee/getEmployeeById?employeeId='
 
