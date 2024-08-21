@@ -1,10 +1,8 @@
 export const isTokenValid = () => {
     const loggedInTime = localStorage.getItem('loginTime');
-    
     if (!loggedInTime) {
         return false;
     }
-    
     const loginTimestamp = parseInt(loggedInTime, 10);
     const loginDateTime = new Date(loginTimestamp);
     const currentDateTime = new Date();

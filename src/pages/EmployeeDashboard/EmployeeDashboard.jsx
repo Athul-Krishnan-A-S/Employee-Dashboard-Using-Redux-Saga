@@ -57,8 +57,7 @@ function EmployeeDashboard() {
         <div className="employee-dashboard-container">
             {(isModalOpen || isEdit) && <AddEmployeeModal />}
             {(isDelete && <DeleteConfirmationModal />)}
-            {(!isToken && <p className='token-expired'>Token Expired</p>)}
-            {isToken && <EmployeeDashboardHeader />}
+            <EmployeeDashboardHeader isToken={isToken} />
             <div className='welcome-container'>
                 <p>Welcome to Employee Dashboard</p>
             </div>
@@ -66,7 +65,7 @@ function EmployeeDashboard() {
                 <input className='search-field' type='text' placeholder='Search for employee name,email or designation' onChange={handleSearchBox}></input>
                 <Button value='Search' className='searchBtn' onClick={handleSearchBox} />
             </div>
-            <EmployeesTable filteredEmployee={filteredEmployee} />
+            {(!isToken ? <p className='token-expired'>Token Expired !!!! Please Login Again</p> : <EmployeesTable filteredEmployee={filteredEmployee} />)}
         </div>
     );
 }
