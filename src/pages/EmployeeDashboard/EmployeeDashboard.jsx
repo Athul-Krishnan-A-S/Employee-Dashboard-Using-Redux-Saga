@@ -14,7 +14,6 @@ function EmployeeDashboard() {
     const isEdit = useSelector((state) => state.isModalOpen.isEdit);
     const isDelete = useSelector((state) => state.isModalOpen.isDelete)
     const [isToken, setIsToken] = useState(true);
-    const { id } = useSelector((state) => state.isModalOpen);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -42,11 +41,14 @@ function EmployeeDashboard() {
     }
     const employeeData = useSelector(state => state.employeeDetails);
     const searchEmployee = (searchFor) => {
-        const filteredEmployees = employeeData.filter(employee =>
-            employee.fname.includes(searchFor) ||
-            employee.email.includes(searchFor) ||
-            employee.designation.includes(searchFor)
-        );
+        const searchTerm = searchFor.toLowerCase();
+        const filteredEmployees = employeeData.filter(employee => {
+            return (
+                employee.fname.toLowerCase().includes(searchTerm) ||
+                employee.email.toLowerCase().includes(searchTerm) ||
+                employee.designation.toLowerCase().includes(searchTerm)
+            );
+        });
         setFilteredEmployee(filteredEmployees);
         return filteredEmployees;
     };
@@ -55,7 +57,7 @@ function EmployeeDashboard() {
         <div className="employee-dashboard-container">
             {(isModalOpen || isEdit) && <AddEmployeeModal />}
             {(isDelete && <DeleteConfirmationModal />)}
-            {(!isToken && <p>Token Expired</p>)}
+            {(!isToken && <p className='token-expired'>Token Expired</p>)}
             {isToken && <EmployeeDashboardHeader />}
             <div className='welcome-container'>
                 <p>Welcome to Employee Dashboard</p>

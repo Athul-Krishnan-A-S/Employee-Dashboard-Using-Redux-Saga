@@ -97,10 +97,9 @@ function* updateEmployee(action) {
                 yield call(errorHandlerUpdateEmployee,response.status);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }else{
-                const data = yield response.json();
                 yield put(toggleEdit());
                 yield put(fetchemployeeData());
-                yield call(successHandlerSubmitRegisterForm,response.status)
+                yield call(successHandlerUpdateEmployee,response.status)
             }
     
         } catch (error) {

@@ -64,7 +64,6 @@ function LoginComponent() {
                             value={email}
                             onChange={handleLoginFormChange}
                         />
-                        <span className='x-mark'>X</span>
                     </div>
                     {isEmailNull && <p className="error-msg">Invalid Email</p>}
                 </div>
@@ -78,7 +77,6 @@ function LoginComponent() {
                             value={password}
                             onChange={handleLoginFormChange}
                         />
-                        <span className='x-mark'>X</span>
                     </div>
                     {isPasswordNull && <p className="error-msg">Invalid Password</p>}
                 </div>

@@ -28,3 +28,10 @@
     padding-top: 3rem;
     padding-bottom: 1.5rem;
 }
+.token-expired{
+    background-color: yellow;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+}
