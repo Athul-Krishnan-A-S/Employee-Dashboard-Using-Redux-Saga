@@ -7,7 +7,6 @@ import {isTokenValid} from '../../utils/isTokenValid';
 import {toggleTokenValid} from '../LoginState/loginStateAction';
 import { setFetchEmployeeSuccess,setDeleteEmployeeSuccess,setInternalServerError, setEmployeeNotFound, setErrorStatus } from '../ServerSideErrorHandlers/ErrorActions';
 
-
 function* successHandlerFetchEmployees(status){
     yield put(setFetchEmployeeSuccess());
 }
@@ -15,7 +14,6 @@ function* successHandlerFetchEmployees(status){
 function* successHandlerDeleteEmployees(status){
     yield put(setDeleteEmployeeSuccess());
 }
-
 
 function* errorHandlerFetchEmployees(status){
     switch(status){
@@ -41,9 +39,6 @@ function* errorHandlerDeleteEmployees(status){
             throw new Error('error')
     }
 }
-
-
-
 
 function* fetchEmployees() {
     if(isTokenValid()){

@@ -7,8 +7,6 @@ import {toggleTokenValid} from '../LoginState/loginStateAction';
 import { setEmailExists, setEmployeeNotFound, setErrorStatus, setSubmitRegistrationFormSuccess, setUpdateEmployeeSuccess } from '../ServerSideErrorHandlers/ErrorActions';
 import { setSearchedData } from '../RegisterData/registerDataAction';
 
-
-
 function* successHandlerSubmitRegisterForm(status){
     yield put(setSubmitRegistrationFormSuccess());
 }
@@ -16,7 +14,6 @@ function* successHandlerSubmitRegisterForm(status){
 function* successHandlerUpdateEmployee(status){
     yield put(setUpdateEmployeeSuccess());
 }
-
 
 function* errorHandlerSubmitRegisterForm(status){
     switch(status){
@@ -42,11 +39,6 @@ function* errorHandlerUpdateEmployee(status){
             throw new Error('error')
     }
 }
-
-
-
-
-
 
 function* submitRegisterForm(action) {
     if(isTokenValid()){
@@ -110,6 +102,7 @@ function* updateEmployee(action) {
         yield put(toggleTokenValid());
     }
 }
+
 function* searchEmployee(action) {
     if(isTokenValid()){
         try {

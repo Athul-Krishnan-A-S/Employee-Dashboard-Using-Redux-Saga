@@ -30,8 +30,6 @@ function EmployeeDashboard() {
         }
     }, [isModalOpen])
 
-
-
     const [searchFor, setSearchFor] = useState('');
     const [filteredEmployee, setFilteredEmployee] = useState();
 

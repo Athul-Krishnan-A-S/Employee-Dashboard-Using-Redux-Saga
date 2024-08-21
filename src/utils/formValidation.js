@@ -1,6 +1,5 @@
 import { setDesignationError, setDobError, setDobNotValid, setDojError, setDojNotValid, setEmailError, setExperienceError, setFirstNameError, setLastNameError, setPhoneError } from "../redux/RegisterData/registerDataAction";
 
-
 export const validateForm = (formData, dispatch) => {
     let hasError = false;
 

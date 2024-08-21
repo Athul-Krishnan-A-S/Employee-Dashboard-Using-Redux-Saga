@@ -5,7 +5,6 @@ import Button from '../Button/Button';
 import './deleteConfirmationModal.css';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 function DeleteConfirmationModal() {
     const { id } = useSelector((state) => state.isModalOpen);
     useEffect(()=>{

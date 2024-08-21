@@ -12,7 +12,6 @@ function* successHandlerLogin(status,data){
     yield put(setLoginSuccess());
 }
 
-
 function* errorHandlerSignup(status){
     switch(status){
         case 422:
@@ -38,8 +37,6 @@ function* errorHandlerLogin(status){
             throw new Error('error')
     }
 }
-
-
 
 function* submitForm(action) {
     try {
@@ -94,7 +91,6 @@ function* submitLoginForm(action) {
         console.error('Error:', error.message);
     }
 }
-
 
 function* watchSubmitForm() {
     yield takeEvery('SUBMIT_SIGN_FORM', submitForm);

@@ -62,7 +62,6 @@ export const AddEmployeeModal = ({ onClose }) => {
         }));
     };
 
-
     const handleSubmitForm = () => {
         const isFormValid = validateForm(formData, dispatch)
         if (isFormValid) {
